@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Добро пожаловать</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono&family=Playfair+Display+SC:wght@700&display=swap&subset=cyrillic">
+<style>
+:root{--bg:#040405;--fg:#d6d3cf;--dim:#74717a;--red:#b3122a;--blood:#6e0a18;--cyan:#1ad0d9;--mono:"IBM Plex Mono","Courier New",monospace;--serif:"Cormorant Garamond",Georgia,serif;--disp:"Playfair Display SC",Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--fg);font-family:var(--mono);overflow-x:hidden}
+body{cursor:crosshair}
+#noise{position:fixed;inset:0;width:100%;height:100%;opacity:.045;pointer-events:none;z-index:50}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:51;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 4px)}
+.vig{position:fixed;inset:0;pointer-events:none;z-index:52;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.93) 100%);animation:flick 7s infinite}
+.fog{position:fixed;inset:-20%;z-index:1;pointer-events:none;filter:blur(30px);background:radial-gradient(40% 30% at 18% 72%,rgba(110,10,24,.28),transparent),radial-gradient(35% 35% at 82% 25%,rgba(26,208,217,.06),transparent),radial-gradient(55% 40% at 55% 105%,rgba(110,10,24,.4),transparent);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(4%,-3%) scale(1.12)}}
+.bar{position:fixed;left:0;width:100%;height:70px;background:linear-gradient(transparent,rgba(255,255,255,.025),transparent);z-index:53;pointer-events:none;animation:roll 9s linear infinite}
+@keyframes roll{from{top:-90px}to{top:100%}}
+@keyframes flick{0%,100%,47%,49%,81%{opacity:1}48%{opacity:.65}80%{opacity:.85}}
+.screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px;text-align:center;position:relative;z-index:10}
+.hidden{display:none!important}
+.panel{position:relative;width:min(620px,94vw);padding:38px 34px 30px;border:1px solid rgba(179,18,42,.25);background:linear-gradient(180deg,rgba(18,6,9,.78),rgba(4,4,5,.88));box-shadow:0 0 90px rgba(110,10,24,.28),inset 0 0 60px rgba(0,0,0,.85)}
+.panel::after{content:"";position:absolute;inset:7px;border:1px solid rgba(255,255,255,.05);pointer-events:none}
+.c{position:absolute;width:24px;height:24px;border:2px solid var(--red)}
+.c.tl{top:-2px;left:-2px;border-right:0;border-bottom:0}.c.tr{top:-2px;right:-2px;border-left:0;border-bottom:0}
+.c.bl{bottom:-2px;left:-2px;border-right:0;border-top:0}.c.br{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.tag{font-size:.68rem;letter-spacing:.32em;color:var(--dim);text-transform:uppercase}
+.tag b{color:var(--red);font-weight:400}
+.sigil{width:112px;height:112px;color:var(--red);margin:16px auto 14px;display:block;filter:drop-shadow(0 0 8px rgba(179,18,42,.7))}
+.rot{transform-origin:50px 50px;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pupil{animation:pup 5s infinite}
+@keyframes pup{0%,100%{transform:translateX(0)}30%{transform:translateX(-5px)}60%{transform:translateX(5px)}}
+.glitch{position:relative;font-family:var(--disp);font-size:clamp(1.6rem,5.8vw,2.9rem);letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--fg);text-shadow:0 0 22px rgba(255,255,255,.14)}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;overflow:hidden}
+.glitch::before{color:var(--red);transform:translateX(-3px);animation:g1 2.6s infinite steps(1)}
+.glitch::after{color:var(--cyan);transform:translateX(3px);animation:g2 3.1s infinite steps(1)}
+@keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{clip-path:inset(10% 0 60% 0)}93%{clip-path:inset(55% 0 20% 0)}95%{clip-path:inset(80% 0 2% 0)}97%{clip-path:inset(30% 0 40% 0)}}
+@keyframes g2{0%,85%,100%{clip-path:inset(0 0 100% 0)}86%{clip-path:inset(60% 0 10% 0)}88%{clip-path:inset(5% 0 80% 0)}92%{clip-path:inset(40% 0 35% 0)}}
+.beat{display:block;width:min(260px,70%);height:30px;margin:14px auto 0;fill:none;stroke:var(--red);stroke-width:1.6;stroke-dasharray:330;animation:beat 2.8s linear infinite;filter:drop-shadow(0 0 4px var(--red))}
+@keyframes beat{from{stroke-dashoffset:330}to{stroke-dashoffset:-330}}
+.sub{margin-top:18px;font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,3vw,1.5rem);color:#9b979f;letter-spacing:.06em;min-height:1.6em}
+.sub .cur{display:inline-block;width:.5em;height:1em;background:var(--red);vertical-align:-.12em;margin-left:3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+#gate{margin:30px auto 0;width:min(400px,100%)}
+.field{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--dim);padding:10px 4px;transition:.3s}
+.field:focus-within{border-color:var(--red);box-shadow:0 10px 22px -14px var(--red)}
+.field span{color:var(--red)}
+#pw{flex:1;min-width:0;background:transparent;border:0;color:var(--fg);font:inherit;font-size:1.15rem;letter-spacing:.3em;text-align:center;outline:none}
+#err{height:1.4em;margin-top:18px;color:var(--red);letter-spacing:.22em;font-weight:700;font-size:.85rem;opacity:0}
+#err.on{opacity:1;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+#go{margin-top:14px;background:transparent;border:1px solid rgba(179,18,42,.5);color:var(--fg);font:inherit;font-size:.8rem;letter-spacing:.35em;text-transform:uppercase;padding:11px 34px;cursor:pointer;transition:.3s;position:relative}
+#go:hover{background:rgba(179,18,42,.18);box-shadow:0 0 22px rgba(179,18,42,.45);text-shadow:0 0 8px var(--red)}
+.panel .foot{margin-top:26px;padding-top:14px;border-top:1px dashed rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+body.bad{animation:bad .9s}
+body.bad .screen{filter:hue-rotate(-30deg) saturate(2.5) contrast(1.3)}
+@keyframes bad{0%{background:#300}10%{background:var(--bg)}20%{background:#400}30%{background:var(--bg)}}
+body.burst .screen,body.burst #content{animation:burst .12s infinite;filter:contrast(1.5) saturate(2)}
+@keyframes burst{0%{transform:translate(4px,-2px) skewX(3deg)}50%{transform:translate(-6px,3px) skewX(-4deg)}100%{transform:translate(2px,0)}}
+.whisper{position:fixed;z-index:20;color:var(--red);font-family:var(--serif);font-style:italic;letter-spacing:.25em;text-transform:uppercase;pointer-events:none;opacity:0;animation:wh 2.4s forwards;text-shadow:0 0 10px var(--red)}
+@keyframes wh{0%{opacity:0}15%{opacity:.75}30%{opacity:.15}45%{opacity:.6}100%{opacity:0}}
+.eyes{position:fixed;z-index:19;display:flex;gap:14px;pointer-events:none;opacity:0;animation:eye 3.4s forwards}
+.eye{width:16px;height:9px;border-radius:50%;background:#e8e8e8;position:relative;box-shadow:0 0 12px rgba(255,255,255,.5);animation:eb 3.4s}
+.eye i{position:absolute;width:5px;height:5px;border-radius:50%;background:#000;top:2px;left:5.5px;transform:translate(var(--px,0),var(--py,0))}
+@keyframes eye{0%{opacity:0}12%{opacity:.9}85%{opacity:.9}100%{opacity:0}}
+@keyframes eb{0%,40%,46%,100%{transform:scaleY(1)}43%{transform:scaleY(.05)}}
+.corner{position:fixed;z-index:30;font-size:.68rem;color:var(--dim);letter-spacing:.2em;opacity:.65}
+#tl{top:14px;left:16px}#tr{top:14px;right:16px}#bl{bottom:14px;left:16px}
+.rec{color:var(--red);animation:blink 1.2s steps(1) infinite}
+#log{position:fixed;left:16px;bottom:38px;z-index:30;font-size:.62rem;line-height:1.7;color:#4d4b52;text-align:left;pointer-events:none;max-width:42vw}
+#log .e{color:var(--red)}
+@media(max-width:700px){#log{display:none}.panel{padding:34px 18px 24px}}
+/* страница за паролем */
+#content{position:relative;z-index:10;max-width:860px;margin:0 auto;padding:80px 22px 140px}
+#content>*{margin-bottom:48px;animation:rise .9s both}
+@keyframes rise{from{opacity:0;transform:translateY(18px);filter:blur(6px)}}
+.dossier{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 0;border-top:2px solid var(--red);border-bottom:1px solid #2a2a2f;font-size:.68rem;letter-spacing:.3em;color:var(--dim)}
+.dossier b{color:var(--red);font-weight:400}
+.b-title{font-size:clamp(1.8rem,6vw,3.4rem)!important;text-align:center;padding:10px 0}
+.b-title::before,.b-title::after{font-size:inherit}
+.b-text{font-family:var(--serif);font-size:1.4rem;line-height:1.75;white-space:pre-line;color:var(--fg);padding-left:22px;border-left:2px solid var(--blood)}
+.b-text::first-letter{color:var(--red);font-size:1.5em}
+.b-text:hover{animation:tj .25s 2}
+@keyframes tj{50%{text-shadow:2px 0 var(--red),-2px 0 var(--cyan)}}
+figure{position:relative;border:1px solid #26262b;padding:12px 12px 10px;background:linear-gradient(180deg,#0d0d10,#070708);box-shadow:0 0 50px rgba(179,18,42,.14)}
+figure::before,figure::after{content:"";position:absolute;width:18px;height:18px;border:2px solid var(--red)}
+figure::before{top:-5px;left:-5px;border-right:0;border-bottom:0}figure::after{bottom:-5px;right:-5px;border-left:0;border-top:0}
+figure img,figure video{display:block;width:100%;height:auto;filter:contrast(1.1) saturate(.75) sepia(.12);transition:.2s}
+figure img:hover{animation:burst .12s 3;filter:contrast(1.5) hue-rotate(-20deg)}
+figure .frame{position:relative;aspect-ratio:16/9}
+figure iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+figcaption{margin-top:10px;font-size:.72rem;color:var(--dim);letter-spacing:.2em;text-transform:uppercase}
+.stamp{position:absolute;top:22px;right:-10px;z-index:3;transform:rotate(8deg);border:2px solid var(--red);color:var(--red);padding:3px 12px;font-size:.8rem;letter-spacing:.3em;font-weight:700;opacity:.8;background:rgba(0,0,0,.5);pointer-events:none}
+.empty{padding:60px 10px;text-align:center;color:var(--dim);border:1px dashed #38383e;letter-spacing:.2em;font-size:.75rem;background:repeating-linear-gradient(45deg,transparent 0 10px,rgba(255,255,255,.015) 10px 20px)}
+.b-div{height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);position:relative;overflow:visible}
+.b-div::after{content:"✕";position:absolute;left:50%;top:-.7em;transform:translateX(-50%);background:var(--bg);padding:0 12px;color:var(--red);font-size:.8rem}
+.b-red{color:var(--red);text-align:center;letter-spacing:.35em;text-transform:uppercase;font-weight:700;text-shadow:0 0 12px var(--red);animation:rise .9s both,pulse 3s 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.endline{text-align:center;font-size:.68rem;letter-spacing:.35em;color:var(--dim);padding-top:30px;border-top:1px dashed #2a2a2f}
+</style>
+</head>
+<body>
+<canvas id="noise" width="160" height="90"></canvas>
+<div class="fog"></div><div class="scan"></div><div class="vig"></div><div class="bar"></div>
+<div class="corner" id="tl"><span class="rec">●</span> REC 00:00:00</div>
+<div class="corner" id="tr">СИГНАЛ: НЕУСТОЙЧИВ</div>
+<div class="corner" id="bl">ОНИ ВСЁ ЕЩЁ ЗДЕСЬ</div>
+<div id="log"></div>
+
+<!-- ЭКРАН С ПАРОЛЕМ -->
+<main class="screen" id="gateScreen">
+  <div class="panel">
+    <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+    <div class="tag">Протокол 13 // <b>доступ ограничен</b></div>
+    <svg class="sigil" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width=".8">
+      <circle class="rot" cx="50" cy="50" r="47" stroke-dasharray="1.5 4"/><circle cx="50" cy="50" r="40"/>
+      <path d="M50 12 88 78H12Z"/><path d="M28 56Q50 38 72 56Q50 74 28 56Z"/>
+      <circle class="pupil" cx="50" cy="56" r="5" fill="#b3122a" stroke="none"/>
+      <path d="M50 3v7M50 90v7M3 50h7M90 50h7"/>
+    </svg>
+    <h1 class="glitch" data-text="Добро пожаловать">Добро пожаловать</h1>
+    <svg class="beat" viewBox="0 0 260 30"><path d="M0 15H90L100 15 108 2 118 28 126 15H260"/></svg>
+    <p class="sub"><span id="typed"></span><span class="cur"></span></p>
+    <div id="gate">
+      <div class="field"><span>&gt;</span><input id="pw" type="password" autocomplete="off" spellcheck="false" placeholder="· · · · · ·" aria-label="Пароль"></div>
+      <div id="err" role="alert"></div>
+      <button id="go" type="button">Войти</button>
+    </div>
+    <div class="tag foot"><span>узел 13-Ω</span><span>соединение не защищено</span><span>вас видят</span></div>
+  </div>
+</main>
+
+<!-- СТРАНИЦА ЗА ПАРОЛЕМ -->
+<div id="content" class="hidden"></div>
+
+<script>
+/* =====================================================================
+   ★ НАСТРОЙКИ — ЭТО ЕДИНСТВЕННОЕ МЕСТО, КОТОРОЕ НУЖНО РЕДАКТИРОВАТЬ ★
+   ===================================================================== */
+
+// Пароль (регистр не важен). Он виден в исходном коде страницы.
+const PASSWORD = "mirror";
+
+// Контент закрытой страницы. Добавляй, удаляй и переставляй блоки как угодно.
+// Типы блоков:
+//   { type:"title",   text:"Заголовок" }
+//   { type:"text",    text:"Обычный текст\nПереносы строк работают" }
+//   { type:"red",     text:"Красная пугающая строка" }
+//   { type:"image",   src:"media/photo.jpg", caption:"Подпись" }
+//   { type:"video",   src:"media/video.mp4", caption:"Подпись" }   // файл .mp4/.webm
+//   { type:"youtube", id:"ID_РОЛИКА", caption:"Подпись" }           // id из ссылки YouTube
+//   { type:"divider" }
+const CONTENT = [
+  { type:"title", text:"Ты нашёл дверь" },
+  { type:"red",   text:"Назад дороги нет" },
+  { type:"text",  text:"Это пример текста. Замени его на свой.\n\nПервая запись датирована 13 ноября. С тех пор в доме никто не спал.\nПроверь третий файл. Не смотри в зеркало слишком долго." },
+  { type:"divider" },
+  { type:"image", src:"", caption:"Файл №1 — вставь сюда путь к картинке" },
+  { type:"text",  text:"Под фотографией была надпись, но её кто-то стёр." },
+  { type:"video", src:"", caption:"Запись №2 — вставь сюда путь к видео" },
+  { type:"divider" },
+  { type:"red",   text:"Следующий пароль ты уже знаешь" }
+];
+
+// Фразы-шёпоты, всплывающие на странице (можно менять)
+const WHISPERS = ["он смотрит","не оборачивайся","ты слышишь?","позади","уходи","мы видим тебя","тише","оно рядом","help","я здесь","не верь","1 3 1 1"];
+
+// Текст под заголовком (печатается по буквам)
+const SUBTEXT = "Помешают ли тебе помехи?";
+
+/* ===================== ДАЛЬШЕ ТРОГАТЬ НЕ ОБЯЗАТЕЛЬНО ===================== */
+const $ = s => document.querySelector(s);
+const pw = $("#pw"), err = $("#err"), go = $("#go");
+let locked = false, unlocked = false;
+
+/* шум */
+const nc = $("#noise"), nx = nc.getContext("2d");
+function noise(){
+  const im = nx.createImageData(nc.width, nc.height), d = im.data;
+  for(let i=0;i<d.length;i+=4){const v=90+Math.random()*80;d[i]=d[i+1]=d[i+2]=v;d[i+3]=255}
+  nx.putImageData(im,0,0);
+}
+setInterval(noise,160); noise();
+
+/* печать подзаголовка */
+(function type(i=0){
+  if(i<=SUBTEXT.length){ $("#typed").textContent = SUBTEXT.slice(0,i); setTimeout(()=>type(i+1), 70+Math.random()*90); }
+})();
+
+/* REC-таймер */
+let sec=0; setInterval(()=>{sec++;const p=n=>String(n).padStart(2,"0");$("#tl").innerHTML='<span class="rec">●</span> REC '+p(Math.floor(sec/3600))+":"+p(Math.floor(sec/60)%60)+":"+p(sec%60)},1000);
+
+/* шёпоты */
+function whisper(){
+  const w=document.createElement("div"); w.className="whisper";
+  w.textContent=WHISPERS[Math.floor(Math.random()*WHISPERS.length)];
+  w.style.left=(5+Math.random()*80)+"%"; w.style.top=(8+Math.random()*80)+"%";
+  w.style.fontSize=(.7+Math.random()*1.3)+"rem";
+  document.body.appendChild(w); setTimeout(()=>w.remove(),2500);
+  setTimeout(whisper, 2500+Math.random()*5000);
+}
+setTimeout(whisper,3000);
+
+/* глаза в темноте */
+let mx=innerWidth/2,my=innerHeight/2;
+addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;document.querySelectorAll(".eyes").forEach(look)});
+function look(el){
+  const r=el.getBoundingClientRect(),dx=mx-(r.left+r.width/2),dy=my-(r.top+r.height/2),a=Math.atan2(dy,dx);
+  el.style.setProperty("--px",Math.cos(a)*4+"px");el.style.setProperty("--py",Math.sin(a)*2+"px");
+}
+function eyes(){
+  const e=document.createElement("div"); e.className="eyes";
+  e.innerHTML='<div class="eye"><i></i></div><div class="eye"><i></i></div>';
+  const edge=Math.random()<.5;
+  e.style.left=(edge?(Math.random()<.5?3:88):5+Math.random()*88)+"%";
+  e.style.top=(edge?10+Math.random()*80:(Math.random()<.5?4:92))+"%";
+  e.style.transform="scale("+(.7+Math.random()*1.4)+")";
+  document.body.appendChild(e); look(e); setTimeout(()=>e.remove(),3500);
+  setTimeout(eyes, 6000+Math.random()*9000);
+}
+setTimeout(eyes,5000);
+
+/* случайные глитч-вспышки всего экрана */
+setInterval(()=>{
+  if(Math.random()<.35){
+    document.body.classList.add("burst"); setTimeout(()=>document.body.classList.remove("burst"),120+Math.random()*250);
+  }
+},4000);
+
+/* звук (включается после первого взаимодействия) */
+let ac;
+function buzz(freq,dur,vol=.05,type="sawtooth"){
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.type=type;o.frequency.value=freq;g.gain.value=vol;
+    o.connect(g);g.connect(ac.destination);o.start();
+    g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);o.stop(ac.currentTime+dur);
+  }catch(e){}
+}
+
+/* проверка пароля */
+function submit(){
+  if(locked||unlocked) return;
+  const v=pw.value.trim().toLowerCase();
+  if(!v) return;
+  if(v===PASSWORD.toLowerCase()){ unlock(); } else { fail(); }
+}
+function fail(){
+  locked=true; pw.disabled=true; go.disabled=true;
+  err.textContent="ДОСТУП ЗАПРЕЩЁН"; err.classList.add("on");
+  document.body.classList.add("bad");
+  buzz(70,.5,.08); buzz(53,.7,.06,"square");
+  setTimeout(()=>{ err.textContent="ТЫ НЕ ДОЛЖЕН БЫЛ ЭТО ПРОБОВАТЬ"; },900);
+  setTimeout(()=>{
+    document.body.classList.remove("bad");
+    err.classList.remove("on"); err.textContent="";
+    pw.value=""; pw.disabled=false; go.disabled=false; locked=false; pw.focus();
+  },2200);
+}
+function unlock(){
+  unlocked=true; pw.disabled=true;
+  buzz(40,1.2,.1,"square"); buzz(900,.3,.03);
+  document.body.classList.add("burst");
+  setTimeout(()=>{
+    $("#gateScreen").classList.add("hidden");
+    render();
+    $("#content").classList.remove("hidden");
+    $("#tr").textContent="ДОСТУП ПОЛУЧЕН"; $("#bl").textContent="ТЕПЕРЬ ОНИ ЗНАЮТ, ЧТО ТЫ ЗДЕСЬ";
+    window.scrollTo(0,0);
+    setTimeout(()=>document.body.classList.remove("burst"),700);
+  },900);
+}
+go.addEventListener("click",submit);
+pw.addEventListener("keydown",e=>{ if(e.key==="Enter") submit(); });
+
+/* отрисовка контента */
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function fig(media,caption){
+  const f=el("figure");f.appendChild(el("span","stamp","СЕКРЕТНО"));f.appendChild(media);
+  if(caption)f.appendChild(el("figcaption",null,"▸ "+caption));return f;
+}
+function render(){
+  const root=$("#content"); root.innerHTML="";
+  const hd=el("header","dossier"); hd.innerHTML="<span>ДЕЛО № <b>0013</b></span><span>ГРИФ: <b>СЕКРЕТНО</b></span><span>СТАТУС: НАБЛЮДЕНИЕ</span>"; root.appendChild(hd);
+  CONTENT.forEach((b,idx)=>{
+    let n;
+    switch(b.type){
+      case "title":{ n=el("h2","glitch b-title",b.text); n.dataset.text=b.text; break; }
+      case "text": n=el("p","b-text",b.text); break;
+      case "red":  n=el("p","b-red",b.text); break;
+      case "divider": n=el("div","b-div"); break;
+      case "image":
+        if(!b.src){ n=el("div","empty","[ ИЗОБРАЖЕНИЕ УТЕРЯНО ]"); if(b.caption)n.appendChild(el("div",null,b.caption)); break; }
+        { const i=el("img"); i.src=b.src; i.alt=b.caption||""; i.onerror=()=>{i.replaceWith(el("div","empty","[ ФАЙЛ ПОВРЕЖДЁН ]"))}; n=fig(i,b.caption); }
+        break;
+      case "video":
+        if(!b.src){ n=el("div","empty","[ ЗАПИСЬ УТЕРЯНА ]"); if(b.caption)n.appendChild(el("div",null,b.caption)); break; }
+        { const v=el("video"); v.src=b.src; v.controls=true; v.preload="metadata"; n=fig(v,b.caption); }
+        break;
+      case "youtube":
+        if(!b.id){ n=el("div","empty","[ ЗАПИСЬ УТЕРЯНА ]"); break; }
+        { const w=el("div","frame"),f=el("iframe"); f.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(b.id); f.allowFullscreen=true; f.title=b.caption||"video"; w.appendChild(f); n=fig(w,b.caption); }
+        break;
+      default: return;
+    }
+    n.style.animationDelay=(idx*.18+.3)+"s"; root.appendChild(n);
+  });
+  root.appendChild(el("div","endline","КОНЕЦ ЗАПИСИ ▪ СИГНАЛ ПОТЕРЯН"));
+}
+
+/* лог системы */
+const LOGS=["соединение с узлом 13…","пакет потерян (0x3F)","[ERR] сигнал не отвечает","кто-то читает этот канал","обнаружено движение: сектор 4","повторная попытка…","[ERR] объект наблюдает","шифрование нарушено","они слышат клавиши","[ERR] ты не один"];
+(function log(){
+  const l=$("#log"),t=LOGS[Math.floor(Math.random()*LOGS.length)],d=document.createElement("div");
+  d.textContent="> "+t; if(t.startsWith("[ERR]"))d.className="e"; l.appendChild(d);
+  while(l.children.length>5)l.firstChild.remove();
+  setTimeout(log,1500+Math.random()*2500);
+})();
+/* вкладка */
+const T=document.title;
+document.addEventListener("visibilitychange",()=>{document.title=document.hidden?"вернись":T});
+pw.focus();
+</script>
+</body>
+</html>
